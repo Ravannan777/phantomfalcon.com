@@ -5,6 +5,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchForm = document.getElementById('searchForm');
     const searchInput = document.getElementById('searchInput');
     const searchAlert = document.getElementById('searchAlert');
+    const menuToggle = document.getElementById('menuToggle');
+    const wikiSidebar = document.getElementById('wikiSidebar');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+    // Mobile sidebar drawer: hamburger opens it, backdrop/outside click closes it
+    function openSidebar() {
+        if (wikiSidebar) wikiSidebar.classList.add('sidebar-open');
+        if (sidebarBackdrop) sidebarBackdrop.classList.add('active');
+    }
+    function closeSidebar() {
+        if (wikiSidebar) wikiSidebar.classList.remove('sidebar-open');
+        if (sidebarBackdrop) sidebarBackdrop.classList.remove('active');
+    }
+    if (menuToggle && wikiSidebar) {
+        menuToggle.addEventListener('click', () => {
+            if (wikiSidebar.classList.contains('sidebar-open')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        });
+    }
+    if (sidebarBackdrop) {
+        sidebarBackdrop.addEventListener('click', closeSidebar);
+    }
+    // Close the drawer automatically if the screen is resized back to desktop width
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 900) closeSidebar();
+    });
 
     // Modal உள்ளே Login ചെയ്യുന്ന Form-ഉം Error Message காட்டுவதற்கான Element-ഉം സെറ്റ് ചെയ്യുക
     const modalBox = document.querySelector('.modal-box');

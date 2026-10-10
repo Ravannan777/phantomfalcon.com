@@ -6,16 +6,26 @@
     scroll-behavior: smooth;
 }
 
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overflow-x: hidden;
+}
+
 body {
     background: #ffffff;
     color: #202122;
     font-size: 14px;
     line-height: 1.6;
+    overflow-x: hidden;
+    max-width: 100vw;
 }
 
 /* Header Styling */
 .wiki-header {
     display: flex;
+    flex-wrap: wrap;
+    row-gap: 10px;
     justify-content: space-between;
     align-items: center;
     background: #ffffff;
@@ -74,15 +84,17 @@ body {
 
 .main-title {
     font-family: 'Linux Libertine', Georgia, Times, serif;
-    font-size: 16px;
+    font-size: clamp(14px, 4vw, 16px);
     font-weight: bold;
     letter-spacing: 0.5px;
     color: #000;
+    white-space: nowrap;
 }
 
 .sub-title {
-    font-size: 10px;
+    font-size: clamp(8px, 2.2vw, 10px);
     color: #54595d;
+    white-space: nowrap;
 }
 
 /* Wikipedia Search Bar with Button */
@@ -92,7 +104,10 @@ body {
     background: #ffffff;
     border: 1px solid #a2a9b1;
     border-radius: 2px;
-    width: 450px;
+    flex: 1 1 280px;
+    width: auto;
+    max-width: 450px;
+    min-width: 0;
     overflow: hidden;
 }
 
@@ -107,6 +122,7 @@ body {
     border: none;
     outline: none;
     width: 100%;
+    min-width: 0;
     padding: 6px 8px;
     font-size: 13px;
 }
@@ -269,7 +285,7 @@ body {
 
 .article-title-area h1 {
     font-family: 'Linux Libertine', Georgia, Times, serif;
-    font-size: 28px;
+    font-size: clamp(22px, 6vw, 28px);
     font-weight: normal;
     border-bottom: 1px solid #a2a9b1;
     padding-bottom: 5px;
@@ -313,6 +329,7 @@ body {
     border: 1px solid #a2a9b1;
     padding: 10px 15px;
     width: 260px;
+    max-width: 100%;
     margin: 15px 0;
     font-size: 13px;
 }
@@ -535,7 +552,31 @@ body {
 /* Responsive Design */
 @media (max-width: 900px) {
     .wiki-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 250px;
+        max-width: 80vw;
+        margin: 0;
+        overflow-y: auto;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        z-index: 300;
+        box-shadow: 2px 0 18px rgba(0,0,0,0.25);
+    }
+    .wiki-sidebar.sidebar-open {
+        transform: translateX(0);
+    }
+    .sidebar-backdrop {
         display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 250;
+    }
+    .sidebar-backdrop.active {
+        display: block;
     }
     .article-body-grid {
         flex-direction: column-reverse;
@@ -548,6 +589,38 @@ body {
     }
     .wiki-sub-header {
         padding-left: 20px;
+    }
+}
+
+/* Phones */
+@media (max-width: 520px) {
+    .wiki-header {
+        padding: 8px 12px;
+    }
+    .wiki-header-right {
+        gap: 10px;
+    }
+    .header-link {
+        font-size: 12px;
+    }
+    .wiki-main-content {
+        padding: 16px;
+    }
+    .article-text p {
+        text-align: left;
+        font-size: 13.5px;
+    }
+    .wiki-sub-header {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 0 12px;
+    }
+    .wiki-sub-header::-webkit-scrollbar {
+        display: none;
+    }
+    .modal-box {
+        width: 90%;
+        padding: 20px;
     }
 }
 /* New Section Styles for Key figure and In popular culture */
